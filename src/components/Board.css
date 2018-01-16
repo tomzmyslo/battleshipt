@@ -1,0 +1,12 @@
+.player-label {
+  color: white;
+  font-weight: bold;
+  text-align: center;
+}
+
+/* .board-row:after {
+  clear: both;
+  content: "";
+  display: table;
+  background-color: gray;
+} */

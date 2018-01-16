@@ -1,0 +1,14 @@
+.coordinate {
+  margin: -1px;
+  margin-top: -1px;
+  padding: 0;
+  float: left;
+  height: 52px;
+  width: 52px;
+  font-size: 24px;
+  font-weight: bold;
+  line-height: 50px;
+  text-align: center;
+  background: rgba(255,255,255,0.75);
+  border: 1px solid #999;
+}
