@@ -1,3 +1,5 @@
+button:focus {outline:0;}
+
 .header {
   background-color: #5FA535;
   text-align: center;
@@ -12,10 +14,29 @@
 }
 
 .game-area {
-  padding-top: 20px;
+  padding-top: 10px;
   margin: auto;
   width: 500px;
   perspective: 1000px;
+}
+
+.game-controls {
+  text-align: center;
+  margin: auto;
+  margin-bottom: 10px;
+}
+
+.button {
+  background-color: #5FA535;
+  font-size: 12px;
+  color: white;
+  width: 100px;
+  height: 25px;
+  padding-left: 5px;
+  padding-right: 5px;
+  margin-right: 5px;
+  margin-left: 5px;
+  cursor: pointer;
 }
 
 .flip {
