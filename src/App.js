@@ -53,8 +53,8 @@ class App extends Component {
   newGame() {
     console.log("Starting New Game")
     this.setState({inPlay: true})
-    this.setPlayerOneName()
-    this.setPlayerTwoName()
+    // this.setPlayerOneName()
+    // this.setPlayerTwoName()
     this.setShipData()
   }
 
@@ -130,7 +130,7 @@ class App extends Component {
     let shipArray = []
     let rounded = (Math.round(startingPoint / 10) * 10)
 
-    console.log(`Starting: ${startingPoint} / Mass: ${shipMass} / Rounded: ${rounded}`);
+    console.log(`Starting: ${startingPoint} / Ship: ${ship.name} / Mass: ${shipMass} / Rounded: ${rounded}`);
 
     if ((shipMass - rounded) > ship.hits) {
       for (let i = startingPoint; i < startingPoint + ship.hits; i++) {
@@ -142,18 +142,18 @@ class App extends Component {
       }
     }
 
-    let sortedShipArray = shipArray.sort()
+    let sortedShipArray = shipArray.sort((a, b) => {return a - b})
 
     console.log("Sorted: " + sortedShipArray)
 
     if (this.checkCollision(sortedShipArray) === true) {
-      console.log("sortedShipArray[0] = " + sortedShipArray[0]);
-      console.log("sortedShipArray.length = " + sortedShipArray.length);
+      // console.log("sortedShipArray[0] = " + sortedShipArray[0]);
+      // console.log("sortedShipArray.length = " + sortedShipArray.length);
       let updatedBoard = this.state.player1board
       for (let i = sortedShipArray[0]; i < (sortedShipArray[0] + sortedShipArray.length); i++) {
         updatedBoard[i-1] = ship.abbr
       }
-      console.log(updatedBoard)
+      // console.log(updatedBoard)
       this.setState({player1board: updatedBoard})
     } else {
       this.generateHorizontalShip(ship)
@@ -165,7 +165,7 @@ class App extends Component {
     let shipMass = ship.hits * 10
     let shipArray = []
 
-    console.log(`Starting: ${startingPoint} / Mass: ${shipMass}`);
+    console.log(`Starting: ${startingPoint} / Ship: ${ship.name} / Mass: ${shipMass}`);
 
     if ((startingPoint + shipMass) > 101) {
       for (let i = startingPoint; i > (startingPoint - shipMass); i -= 10) {
@@ -177,18 +177,18 @@ class App extends Component {
       }
     }
 
-    let sortedShipArray = shipArray.sort()
+    let sortedShipArray = shipArray.sort((a, b) => {return a - b})
 
     console.log("Sorted: " + sortedShipArray)
 
     if (this.checkCollision(sortedShipArray) === true) {
-      console.log("sortedShipArray[0] = " + sortedShipArray[0]);
-      console.log("sortedShipArray.length = " + sortedShipArray.length);
+      // console.log("sortedShipArray[0] = " + sortedShipArray[0]);
+      // console.log("sortedShipArray.length = " + sortedShipArray.length);
       let updatedBoard = this.state.player1board
       for (let i = sortedShipArray[0]; i < (sortedShipArray[0] + (sortedShipArray.length * 10)); i += 10) {
         updatedBoard[i-1] = ship.abbr
       }
-      console.log(updatedBoard)
+      // console.log(updatedBoard)
       this.setState({player1board: updatedBoard})
     } else {
       this.generateVerticalShip(ship)
@@ -197,14 +197,29 @@ class App extends Component {
 
   checkCollision(shipArray) {
     let board = this.state.player1board
-    for (let i = shipArray[0]; i < (shipArray[0] + shipArray.length);) {
-      if (board[i] === 0) {
-        i++
-      } else {
-        return false
+    console.log(board);
+    let distance = (shipArray[1] - shipArray[0])
+    if (distance === 10) {
+      for (let i = shipArray[0]; i < (shipArray[0] + (shipArray.length * 10));) {
+        console.log(board[i] + " == 0");
+        if (board[i] === 0) {
+          i += 10
+        } else {
+          return false
+        }
       }
+      return true
+    } else if (distance === 1) {
+      for (let i = shipArray[0]; i < (shipArray[0] + shipArray.length);) {
+        console.log(board[i] + " == 0");
+        if (board[i] === 0) {
+          i++
+        } else {
+          return false
+        }
+      }
+      return true
     }
-    return true
   }
 
   flip() {
@@ -233,7 +248,7 @@ class App extends Component {
         <div className="game-area">
           <div className="game-controls">
             <button hidden={this.state.inPlay} className="button" onClick={this.newGame}>New Game</button>
-            <button className="button" onClick={this.reset}>Reset</button>
+            <button hidden={!this.state.inPlay} className="button" onClick={this.reset}>Reset</button>
             <button className="button" onClick={this.flip}>Flip</button>
           </div>
 
