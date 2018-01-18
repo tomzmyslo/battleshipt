@@ -9,7 +9,7 @@ export default class Board extends Component {
         <p className="player-label">{this.props.name}</p>
         {this.props.board.map((cell, i) => {
           return (
-            <Cell key={i} value={cell} location={i} player={this.props.name} checkStrike={this.props.checkStrike} />
+            <Cell key={i} value={cell} location={i} color="white" player={this.props.player} checkStrike={this.props.checkStrike} />
           )
         })}
       </div>

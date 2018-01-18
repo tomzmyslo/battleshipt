@@ -9,7 +9,11 @@ class App extends Component {
     this.state = {
       flipped: false,
       inPlay: false,
+      msg: "",
       player1name: "Player 1",
+      player1score: 0,
+      player1hits: [],
+      player1misses: [],
       player1board: [
         0,0,0,0,0,0,0,0,0,0,
         0,0,0,0,0,0,0,0,0,0,
@@ -23,6 +27,9 @@ class App extends Component {
         0,0,0,0,0,0,0,0,0,0,
       ],
       player2name: "Player 2",
+      player2score: 0,
+      player2hits: [],
+      player2misses: [],
       player2board: [
         0,0,0,0,0,0,0,0,0,0,
         0,0,0,0,0,0,0,0,0,0,
@@ -41,6 +48,8 @@ class App extends Component {
     this.reset = this.reset.bind(this)
     this.setPlayerOneName = this.setPlayerOneName.bind(this)
     this.setPlayerTwoName = this.setPlayerTwoName.bind(this)
+    this.setPlayerOneShips = this.setPlayerOneShips.bind(this)
+    this.setPlayerTwoShips = this.setPlayerTwoShips.bind(this)
     this.setShipData = this.setShipData.bind(this)
     this.determineShips = this.determineShips.bind(this)
     this.generateHorizontalShip = this.generateHorizontalShip.bind(this)
@@ -53,9 +62,10 @@ class App extends Component {
   newGame() {
     console.log("Starting New Game")
     this.setState({inPlay: true})
-    // this.setPlayerOneName()
-    // this.setPlayerTwoName()
-    this.setShipData()
+    this.setPlayerOneName()
+    this.setPlayerTwoName()
+    this.setPlayerOneShips()
+    this.setPlayerTwoShips()
   }
 
   reset() {
@@ -65,7 +75,7 @@ class App extends Component {
   setPlayerOneName() {
     let name = prompt("Enter Player 1's Name.")
     if (name === null || name === "") {
-      name = "duh"
+      name = "Player 1"
       this.setState({player1name: name})
     } else {
       this.setState({player1name: name})
@@ -75,14 +85,24 @@ class App extends Component {
   setPlayerTwoName() {
     let name = prompt("Enter Player 2's Name.")
     if (name === null || name === "") {
-      name = "what"
+      name = "Player 2"
       this.setState({player2name: name})
     } else {
       this.setState({player2name: name})
     }
   }
 
-  setShipData() {
+  setPlayerOneShips() {
+    let player = 1
+    this.setShipData(player)
+  }
+
+  setPlayerTwoShips() {
+    let player = 2
+    this.setShipData(player)
+  }
+
+  setShipData(player) {
     let carrier = {
       name: "Carrier",
       hits: 5,
@@ -112,25 +132,25 @@ class App extends Component {
     let ships = [ carrier, battleship, destroyer, submarine, patrol ]
     for (let i = 0; i < ships.length; i++) {
       let direction = directions[Math.floor(Math.random() * directions.length)]
-      this.determineShips(direction, ships[i])
+      this.determineShips(player, direction, ships[i])
     }
   }
 
-  determineShips(dir, ship) {
-    if (dir === 'H') {
-      this.generateHorizontalShip(ship)
-    } else if (dir === 'V') {
-      this.generateVerticalShip(ship)
+  determineShips(player, direction, ship) {
+    if (direction === 'H') {
+      this.generateHorizontalShip(player, ship)
+    } else if (direction === 'V') {
+      this.generateVerticalShip(player, ship)
     }
   }
 
-  generateHorizontalShip(ship) {
+  generateHorizontalShip(player, ship) {
     let startingPoint = Math.floor((Math.random() * 100) + 1) + 1
     let shipMass = startingPoint + ship.hits
     let shipArray = []
     let rounded = (Math.round(startingPoint / 10) * 10)
 
-    console.log(`Starting: ${startingPoint} / Ship: ${ship.name} / Mass: ${shipMass} / Rounded: ${rounded}`);
+    // console.log(`Starting: ${startingPoint} / Ship: ${ship.name} / Mass: ${shipMass} / Rounded: ${rounded}`);
 
     if ((shipMass - rounded) > ship.hits) {
       for (let i = startingPoint; i < startingPoint + ship.hits; i++) {
@@ -144,28 +164,39 @@ class App extends Component {
 
     let sortedShipArray = shipArray.sort((a, b) => {return a - b})
 
-    console.log("Sorted: " + sortedShipArray)
+    // console.log("Sorted: " + sortedShipArray)
 
-    if (this.checkCollision(sortedShipArray) === true) {
+    if (this.checkCollision(player, sortedShipArray) === true) {
       // console.log("sortedShipArray[0] = " + sortedShipArray[0]);
       // console.log("sortedShipArray.length = " + sortedShipArray.length);
-      let updatedBoard = this.state.player1board
+      let updatedBoard = []
+      if (player === 1) {
+        updatedBoard = this.state.player1board
+      } else if (player === 2) {
+        updatedBoard = this.state.player2board
+      }
+
       for (let i = sortedShipArray[0]; i < (sortedShipArray[0] + sortedShipArray.length); i++) {
         updatedBoard[i-1] = ship.abbr
       }
-      // console.log(updatedBoard)
-      this.setState({player1board: updatedBoard})
+
+      if (player === 1) {
+        this.setState({player1board: updatedBoard})
+      } else if (player === 2) {
+        this.setState({player2board: updatedBoard})
+      }
+
     } else {
-      this.generateHorizontalShip(ship)
+      this.generateHorizontalShip(player, ship)
     }
   }
 
-  generateVerticalShip(ship) {
+  generateVerticalShip(player, ship) {
     let startingPoint = Math.floor((Math.random() * 100) + 1) + 1
     let shipMass = ship.hits * 10
     let shipArray = []
 
-    console.log(`Starting: ${startingPoint} / Ship: ${ship.name} / Mass: ${shipMass}`);
+    // console.log(`Starting: ${startingPoint} / Ship: ${ship.name} / Mass: ${shipMass}`);
 
     if ((startingPoint + shipMass) > 101) {
       for (let i = startingPoint; i > (startingPoint - shipMass); i -= 10) {
@@ -179,29 +210,45 @@ class App extends Component {
 
     let sortedShipArray = shipArray.sort((a, b) => {return a - b})
 
-    console.log("Sorted: " + sortedShipArray)
+    // console.log("Sorted: " + sortedShipArray)
 
-    if (this.checkCollision(sortedShipArray) === true) {
+    if (this.checkCollision(player, sortedShipArray) === true) {
       // console.log("sortedShipArray[0] = " + sortedShipArray[0]);
       // console.log("sortedShipArray.length = " + sortedShipArray.length);
-      let updatedBoard = this.state.player1board
+      let updatedBoard
+      if (player === 1) {
+        updatedBoard = this.state.player1board
+      } else if (player === 2) {
+        updatedBoard = this.state.player2board
+      }
+
       for (let i = sortedShipArray[0]; i < (sortedShipArray[0] + (sortedShipArray.length * 10)); i += 10) {
         updatedBoard[i-1] = ship.abbr
       }
-      // console.log(updatedBoard)
-      this.setState({player1board: updatedBoard})
+
+      if (player === 1) {
+        this.setState({player1board: updatedBoard})
+      } else if (player === 2) {
+        this.setState({player2board: updatedBoard})
+      }
+
     } else {
-      this.generateVerticalShip(ship)
+      this.generateVerticalShip(player, ship)
     }
   }
 
-  checkCollision(shipArray) {
-    let board = this.state.player1board
-    console.log(board);
+  checkCollision(player, shipArray) {
+    let board
+    if (player === 1) {
+      board = this.state.player1board
+    } else if (player === 2) {
+      board = this.state.player2board
+    }
+    // console.log(board);
     let distance = (shipArray[1] - shipArray[0])
     if (distance === 10) {
       for (let i = shipArray[0]; i < (shipArray[0] + (shipArray.length * 10));) {
-        console.log(board[i] + " == 0");
+        // console.log(board[i] + " == 0");
         if (board[i] === 0) {
           i += 10
         } else {
@@ -211,7 +258,7 @@ class App extends Component {
       return true
     } else if (distance === 1) {
       for (let i = shipArray[0]; i < (shipArray[0] + shipArray.length);) {
-        console.log(board[i] + " == 0");
+        // console.log(board[i] + " == 0");
         if (board[i] === 0) {
           i++
         } else {
@@ -232,8 +279,62 @@ class App extends Component {
   }
 
   checkStrike(player, location) {
-    let string = `${player} clicked ${location}!`
+    let string = `${player} clicked ${location + 1}!`
     console.log(string)
+    if (player === "one") {
+      let board = this.state.player2board
+      let hitMsg = `You hit ${this.state.player2name}'s '`
+      let sorryCharlie = "Sorry Charlie, that's a miss."
+      switch(board[location]) {
+        case 0:
+          this.setState({msg: sorryCharlie})
+          break
+        case "C":
+          let hitMsg = `You hit ${this.state.player2name}'s carrier!'`
+          this.setState({msg: hitMsg})
+          break
+        case "B":
+          alert("Battleship Hit")
+          break
+        case "D":
+          alert("Destroyer Hit")
+          break
+        case "S":
+          alert("Submarine Hit")
+          break
+        case "P":
+          alert("Patrol Boat")
+          break
+        default:
+          console.log("That's not right!")
+      }
+    } else if (player === "two") {
+      let board = this.state.player1board
+      let hitMsg = `You hit ${this.state.player1name}'s '`
+      let ghostRider = "Negative Ghost Rider. It's a miss."
+      switch(board[location]) {
+        case 0:
+          this.setState({msg: ghostRider})
+          break
+        case "C":
+          alert("Carrier Hit")
+          break
+        case "B":
+          alert("Battleship Hit")
+          break
+        case "D":
+          alert("Destroyer Hit")
+          break
+        case "S":
+          alert("Submarine Hit")
+          break
+        case "P":
+          alert("Patrol Boat")
+          break
+        default:
+          console.log("That's not right!")
+      }
+    }
     setTimeout(() => this.flip(), 500)
   }
 
@@ -246,6 +347,7 @@ class App extends Component {
         </header>
 
         <div className="game-area">
+
           <div className="game-controls">
             <button hidden={this.state.inPlay} className="button" onClick={this.newGame}>New Game</button>
             <button hidden={!this.state.inPlay} className="button" onClick={this.reset}>Reset</button>
@@ -256,6 +358,11 @@ class App extends Component {
             <Board name={this.state.player1name} checkStrike={this.checkStrike} board={this.state.player2board} boardColor="dodgerblue" player="one" />
             <Board name={this.state.player2name} checkStrike={this.checkStrike} board={this.state.player1board} boardColor="tomato" player="two" />
           </div>
+
+        </div>
+
+        <div id="message-area">
+          {this.state.msg}
         </div>
 
       </div>

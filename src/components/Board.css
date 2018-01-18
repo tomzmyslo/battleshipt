@@ -1,12 +1,6 @@
 .player-label {
   color: white;
   font-weight: bold;
-  text-align: center;
+  /* margin-left: 20px; */
+  /* text-align: center; */
 }
-
-/* .board-row:after {
-  clear: both;
-  content: "";
-  display: table;
-  background-color: gray;
-} */

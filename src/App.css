@@ -17,13 +17,22 @@ button:focus {outline:0;}
   padding-top: 10px;
   margin: auto;
   width: 500px;
-  perspective: 1000px;
+  perspective: 4000px;
 }
 
 .game-controls {
   text-align: center;
   margin: auto;
   margin-bottom: 10px;
+}
+
+#message-area {
+  z-index: -10;
+  padding-top: 600px;
+  position: relative;
+  color: black;
+  text-align: center;
+  font-size: 20px;
 }
 
 .button {
@@ -44,6 +53,7 @@ button:focus {outline:0;}
 }
 
 #boards {
+  z-index: 1000;
   transition: all .4s ease-in-out;
   transform-style: preserve-3d;
 }
