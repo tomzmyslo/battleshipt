@@ -3,10 +3,14 @@ import './Cell.css'
 
 export default class Cell extends Component {
   render() {
-    let i = this.props.location
-    let p = this.props.player // Delete this variable later
+    let location = this.props.location
+    let player = this.props.player
     return(
-      <button onClick={() => this.props.checkStrike(p, i)} className="coordinate" style={{backgroundColor: this.props.color}}>{this.props.value}</button>
+      <button onClick={() => this.props.checkStrike(player, location)} className="coordinate" style={{backgroundColor: this.props.color}}>
+        {
+          this.props.value
+        }
+      </button>
     )
   }
 }
