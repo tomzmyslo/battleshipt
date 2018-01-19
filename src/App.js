@@ -12,6 +12,11 @@ class App extends Component {
       msg: "",
       player1name: "Player 1",
       player1score: 0,
+      player1CarrierHits: [],
+      player1BattleshipHits: [],
+      player1DestroyerHits: [],
+      player1SubmarineHits: [],
+      player1PatrolBoatHits: [],
       player1hits: [],
       player1misses: [],
       player1board: [
@@ -28,6 +33,11 @@ class App extends Component {
       ],
       player2name: "Player 2",
       player2score: 0,
+      player2CarrierHits: [],
+      player2BattleshipHits: [],
+      player2DestroyerHits: [],
+      player2SubmarineHits: [],
+      player2PatrolBoatHits: [],
       player2hits: [],
       player2misses: [],
       player2board: [
@@ -278,58 +288,104 @@ class App extends Component {
     this.setState({flipped: !this.state.flipped})
   }
 
-  checkStrike(player, location) {
-    let string = `${player} clicked ${location + 1}!`
+  checkStrike(player, location) { // Delete player later
+    let string = `${player} clicked ${location + 1}!` // Delete later
+    let hitMsg
     console.log(string)
     if (player === "one") {
       let board = this.state.player2board
-      let hitMsg = `You hit ${this.state.player2name}'s '`
+      let hits = this.state.player1hits
       let sorryCharlie = "Sorry Charlie, that's a miss."
       switch(board[location]) {
         case 0:
-          this.setState({msg: sorryCharlie})
+          let misses = this.state.player1misses
+          misses.push(location)
+          this.setState({msg: sorryCharlie, player1misses: misses})
+          console.log(this.state.player1misses)
           break
         case "C":
-          let hitMsg = `You hit ${this.state.player2name}'s carrier!'`
-          this.setState({msg: hitMsg})
+          hitMsg = `You hit ${this.state.player2name}'s carrier!'`
+          let carrierHits = this.state.player1CarrierHits
+          hits.push(location)
+          carrierHits.push(location)
+          this.setState({msg: hitMsg, player1CarrierHits: carrierHits, player1hits: hits})
           break
         case "B":
-          alert("Battleship Hit")
+          hitMsg = `You hit ${this.state.player2name}'s battleship!'`
+          let battleshipHits = this.state.player1BattleshipHits
+          hits.push(location)
+          battleshipHits.push(location)
+          this.setState({msg: hitMsg, player1BattleshipHits: battleshipHits, player1hits: hits})
           break
         case "D":
-          alert("Destroyer Hit")
+          hitMsg = `You hit ${this.state.player2name}'s destroyer!'`
+          let destroyerHits = this.state.player1DestroyerHits
+          hits.push(location)
+          destroyerHits.push(location)
+          this.setState({msg: hitMsg, player1DestroyerHits: destroyerHits, player1hits: hits})
           break
         case "S":
-          alert("Submarine Hit")
+          hitMsg = `You hit ${this.state.player2name}'s submarine!'`
+          let submarineHits = this.state.player1SubmarineHits
+          hits.push(location)
+          submarineHits.push(location)
+          this.setState({msg: hitMsg, player1SubmarineHits: submarineHits, player1hits: hits})
           break
         case "P":
-          alert("Patrol Boat")
+          hitMsg = `You hit ${this.state.player2name}'s patrol boat!'`
+          let patrolboatHits = this.state.player1PatrolBoatHits
+          hits.push(location)
+          patrolboatHits.push(location)
+          this.setState({msg: hitMsg, player1PatrolBoatHits: patrolboatHits, player1hits: hits})
           break
         default:
           console.log("That's not right!")
       }
     } else if (player === "two") {
       let board = this.state.player1board
-      let hitMsg = `You hit ${this.state.player1name}'s '`
+      let hits = this.state.player2hits
       let ghostRider = "Negative Ghost Rider. It's a miss."
       switch(board[location]) {
         case 0:
-          this.setState({msg: ghostRider})
+          let misses = this.state.player2misses
+          misses.push(location)
+          this.setState({msg: ghostRider, player2misses: misses})
+          console.log(this.state.player2misses)
           break
         case "C":
-          alert("Carrier Hit")
+          hitMsg = `You hit ${this.state.player1name}'s carrier!'`
+          let carrierHits = this.state.player2CarrierHits
+          hits.push(location)
+          carrierHits.push(location)
+          this.setState({msg: hitMsg, player2CarrierHits: carrierHits, player2hits: hits})
           break
         case "B":
-          alert("Battleship Hit")
+          hitMsg = `You hit ${this.state.player1name}'s battleship!'`
+          let battleshipHits = this.state.player2BattleshipHits
+          hits.push(location)
+          battleshipHits.push(location)
+          this.setState({msg: hitMsg, player2BattleshipHits: battleshipHits, player2hits: hits})
           break
         case "D":
-          alert("Destroyer Hit")
+          hitMsg = `You hit ${this.state.player1name}'s destroyer!'`
+          let destroyerHits = this.state.player2DestroyerHits
+          hits.push(location)
+          destroyerHits.push(location)
+          this.setState({msg: hitMsg, player2DestroyerHits: destroyerHits, player2hits: hits})
           break
         case "S":
-          alert("Submarine Hit")
+          hitMsg = `You hit ${this.state.player1name}'s submarine!'`
+          let submarineHits = this.state.player2SubmarineHits
+          hits.push(location)
+          submarineHits.push(location)
+          this.setState({msg: hitMsg, player2SubmarineHits: submarineHits, player2hits: hits})
           break
         case "P":
-          alert("Patrol Boat")
+          hitMsg = `You hit ${this.state.player1name}'s patrol boat!'`
+          let patrolboatHits = this.state.player2PatrolBoatHits
+          hits.push(location)
+          patrolboatHits.push(location)
+          this.setState({msg: hitMsg, player2PatrolBoatHits: patrolboatHits, player2hits: hits})
           break
         default:
           console.log("That's not right!")
@@ -355,8 +411,8 @@ class App extends Component {
           </div>
 
           <div id="boards">
-            <Board name={this.state.player1name} checkStrike={this.checkStrike} board={this.state.player2board} boardColor="dodgerblue" player="one" />
-            <Board name={this.state.player2name} checkStrike={this.checkStrike} board={this.state.player1board} boardColor="tomato" player="two" />
+            <Board name={this.state.player1name} hits={this.state.player1hits} misses={this.state.player1misses} checkStrike={this.checkStrike} board={this.state.player2board} boardColor="dodgerblue" player="one" />
+            <Board name={this.state.player2name} hits={this.state.player2hits} misses={this.state.player2misses} checkStrike={this.checkStrike} board={this.state.player1board} boardColor="tomato" player="two" />
           </div>
 
         </div>
