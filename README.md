@@ -4,7 +4,7 @@ BattleShipt is the resulting MVP of my "Code Challenge" for a Web Development po
 
 While I kept true to the rules of Battleship, I decided to enhance and speed up the game experience by utilizing a "Ship Placement Engine" with collision detection, that lets the "computer" place each player's ships. This removes any issues of one player seeing where the other player placed his ship, as well as, eliminating any awkward passing of a laptop back and forth. Plus, it just gets you to playing the game faster.
 
-As with any MVP, BattleShipt includes a few items that had to be put on the back burner. The following is a todo list of those items:
+As with any MVP, BattleShipt includes a few items that had to be put on the back burner. The following is a list of those items:
 
 * Use Redux to manage state
 * Use Flow for type checking
