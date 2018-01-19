@@ -8,7 +8,7 @@ export default class Cell extends Component {
     return(
       <button onClick={() => this.props.checkStrike(player, location)} className="coordinate" style={{backgroundColor: this.props.color}}>
         {
-          this.props.value
+          // this.props.value
         }
       </button>
     )

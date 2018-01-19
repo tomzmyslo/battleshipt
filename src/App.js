@@ -621,7 +621,6 @@ class App extends Component {
           <div className="game-controls">
             <button hidden={this.state.inPlay} className="button" onClick={this.newGame}>New Game</button>
             <button hidden={!this.state.inPlay} className="button" onClick={this.reset}>Reset</button>
-            <button className="button" onClick={this.flip}>Flip</button>
           </div>
 
           <div id="boards">
