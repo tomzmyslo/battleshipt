@@ -1,1 +1,1 @@
-# battleshipt
+# BattleShipt
