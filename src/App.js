@@ -72,7 +72,7 @@ class App extends Component {
   }
 
   newGame() {
-    console.log("Starting New Game")
+    console.log("Starting new game")
     this.setState({inPlay: true})
     this.setPlayerOneName()
     this.setPlayerTwoName()
@@ -81,10 +81,12 @@ class App extends Component {
   }
 
   reset() {
+    console.log("Game reset")
     window.location.reload()
   }
 
   setPlayerOneName() {
+    console.log("Set Player 1's name")
     let name = prompt("Enter Player 1's Name.")
     if (name === null || name === "") {
       name = "Player 1"
@@ -95,6 +97,7 @@ class App extends Component {
   }
 
   setPlayerTwoName() {
+    console.log("Set Player 1's name")
     let name = prompt("Enter Player 2's Name.")
     if (name === null || name === "") {
       name = "Player 2"
@@ -105,16 +108,19 @@ class App extends Component {
   }
 
   setPlayerOneShips() {
+    console.log("Start setting Player 1's ships")
     let player = 1
     this.setShipData(player)
   }
 
   setPlayerTwoShips() {
+    console.log("Start setting Player 2's ships")
     let player = 2
     this.setShipData(player)
   }
 
   setShipData(player) {
+    console.log("Setting up ship data")
     let carrier = {
       name: "Carrier",
       hits: 5,
@@ -149,6 +155,7 @@ class App extends Component {
   }
 
   determineShips(player, direction, ship) {
+    console.log("Function to conditionally decide if ship direction should be horizontal or vertial")
     if (direction === 'H') {
       this.generateHorizontalShip(player, ship)
     } else if (direction === 'V') {
@@ -157,6 +164,7 @@ class App extends Component {
   }
 
   generateHorizontalShip(player, ship) {
+    console.log("Logic to deploy a horizontal ship to the playing area with collision detection")
     let startingPoint = Math.floor((Math.random() * 100) + 1) + 1
     let shipMass = startingPoint + ship.hits
     let shipArray = []
@@ -189,7 +197,6 @@ class App extends Component {
       }
 
       for (let i = sortedShipArray[0]; i < (sortedShipArray[0] + sortedShipArray.length); i++) {
-        console.log(i)
         updatedBoard[i-1] = ship.abbr
       }
 
@@ -205,6 +212,7 @@ class App extends Component {
   }
 
   generateVerticalShip(player, ship) {
+    console.log("Logic to deploy a vertical ship to the playing area with collision detection")
     let startingPoint = Math.floor((Math.random() * 100) + 1) + 1
     let shipMass = ship.hits * 10
     let shipArray = []
@@ -226,8 +234,6 @@ class App extends Component {
     console.log("Sorted: " + sortedShipArray)
 
     if (this.checkCollision(player, sortedShipArray) === true) {
-      // console.log("sortedShipArray[0] = " + sortedShipArray[0]);
-      // console.log("sortedShipArray.length = " + sortedShipArray.length);
       let updatedBoard
       if (player === 1) {
         updatedBoard = this.state.player1board
@@ -236,7 +242,6 @@ class App extends Component {
       }
 
       for (let i = sortedShipArray[0]; i < (sortedShipArray[0] + (sortedShipArray.length * 10)); i += 10) {
-        console.log(i)
         updatedBoard[i-1] = ship.abbr
       }
 
@@ -252,17 +257,16 @@ class App extends Component {
   }
 
   checkCollision(player, shipArray) {
+    console.log("Logic to detection ship placement collisions for ship in both directions")
     let board
     if (player === 1) {
       board = this.state.player1board
     } else if (player === 2) {
       board = this.state.player2board
     }
-    // console.log(board);
     let distance = (shipArray[1] - shipArray[0])
     if (distance === 10) {
       for (let i = shipArray[0]; i < (shipArray[0] + (shipArray.length * 10));) {
-        console.log(board[i] + " == 0")
         if (board[i-1] === 0) {
           i += 10
         } else {
@@ -272,7 +276,6 @@ class App extends Component {
       return true
     } else if (distance === 1) {
       for (let i = shipArray[0]; i < (shipArray[0] + shipArray.length);) {
-        console.log(board[i] + " == 0");
         if (board[i-1] === 0) {
           i++
         } else {
@@ -284,6 +287,7 @@ class App extends Component {
   }
 
   flip() {
+    console.log("Function to flip the board")
     if (this.state.flipped === true) {
       document.getElementById("boards").classList.remove("flip")
     } else {
@@ -293,6 +297,7 @@ class App extends Component {
   }
 
   checkStrike(player, location) {
+    console.log("Function to determine a hit, miss or otherwise / Includes determining winner too")
     if (this.state.inPlay === false) {
       alert('Click "New Game" to begin.')
       return
@@ -580,6 +585,7 @@ class App extends Component {
   }
 
   checkForWinner(player, score) {
+    console.log("Simple function that returns a boolean for whether or not there's a winner")
     if (player === "one" && score === 17) {
       return true
     } else {
@@ -588,6 +594,7 @@ class App extends Component {
   }
 
   announceWinner(player) {
+    console.log("Function that announces winner and resets the game");
     let msg
     if (player === "one") {
       let player1 = this.state.player1name
