@@ -297,7 +297,7 @@ class App extends Component {
   }
 
   checkStrike(player, location) {
-    console.log("Function to determine a hit, miss or otherwise / Includes determining winner too")
+    console.log("Function to determine a hit, miss or otherwise")
     if (this.state.inPlay === false) {
       alert('Click "New Game" to begin.')
       return
@@ -326,11 +326,11 @@ class App extends Component {
             carrierHits.push(location)
             let score = this.state.player1score
             if (carrierHits.length === 5) {
-              hitMsg = `You sunk ${this.state.player2name}'s carrier!'`
+              hitMsg = `You sunk ${this.state.player2name}'s carrier!`
               score += 5
               this.setState({player1score: score})
             } else if (carrierHits.length < 5) {
-              hitMsg = `You hit ${this.state.player2name}'s carrier!'`
+              hitMsg = `You hit ${this.state.player2name}'s carrier!`
             }
             this.setState({msg: hitMsg, player1CarrierHits: carrierHits, player1hits: hits})
             if (this.checkForWinner(player, score) === true) {
@@ -350,11 +350,11 @@ class App extends Component {
             battleshipHits.push(location)
             let score = this.state.player1score
             if (battleshipHits.length === 4) {
-              hitMsg = `You sunk ${this.state.player2name}'s battleship!'`
+              hitMsg = `You sunk ${this.state.player2name}'s battleship!`
               score += 4
               this.setState({player1score: score})
             } else if (battleshipHits.length < 4) {
-              hitMsg = `You hit ${this.state.player2name}'s battleship!'`
+              hitMsg = `You hit ${this.state.player2name}'s battleship!`
             }
             this.setState({msg: hitMsg, player1BattleshipHits: battleshipHits, player1hits: hits})
             if (this.checkForWinner(player, score) === true) {
@@ -374,11 +374,11 @@ class App extends Component {
             destroyerHits.push(location)
             let score = this.state.player1score
             if (destroyerHits.length === 3) {
-              hitMsg = `You sunk ${this.state.player2name}'s destroyer!'`
+              hitMsg = `You sunk ${this.state.player2name}'s destroyer!`
               score += 3
               this.setState({player1score: score})
             } else if (destroyerHits.length < 3) {
-              hitMsg = `You hit ${this.state.player2name}'s destroyer!'`
+              hitMsg = `You hit ${this.state.player2name}'s destroyer!`
             }
             this.setState({msg: hitMsg, player1DestroyerHits: destroyerHits, player1hits: hits})
             if (this.checkForWinner(player, score) === true) {
@@ -398,12 +398,13 @@ class App extends Component {
             submarineHits.push(location)
             let score = this.state.player1score
             if (submarineHits.length === 3) {
-              hitMsg = `You sunk ${this.state.player2name}'s submarine!'`
+              hitMsg = `You sunk ${this.state.player2name}'s submarine!`
               score += 3
               this.setState({player1score: score})
-            } else if (submarineHits < 3) {
-              hitMsg = `You hit ${this.state.player2name}'s submarine!'`
+            } else if (submarineHits.length < 3) {
+              hitMsg = `You hit ${this.state.player2name}'s submarine!`
             }
+            debugger
             this.setState({msg: hitMsg, player1SubmarineHits: submarineHits, player1hits: hits})
             if (this.checkForWinner(player, score) === true) {
               this.announceWinner(player)
@@ -422,11 +423,11 @@ class App extends Component {
             patrolboatHits.push(location)
             let score = this.state.player1score
             if (patrolboatHits.length === 2) {
-              hitMsg = `You sunk ${this.state.player2name}'s patrol boat!'`
+              hitMsg = `You sunk ${this.state.player2name}'s patrol boat!`
               score += 2
               this.setState({player1score: score})
             } else if (patrolboatHits.length < 2) {
-              hitMsg = `You hit ${this.state.player2name}'s patrol boat!'`
+              hitMsg = `You hit ${this.state.player2name}'s patrol boat!`
             }
             this.setState({msg: hitMsg, player1PatrolBoatHits: patrolboatHits, player1hits: hits})
             if (this.checkForWinner(player, score) === true) {
@@ -465,11 +466,11 @@ class App extends Component {
             carrierHits.push(location)
             let score = this.state.player2score
             if (carrierHits.length === 5) {
-              hitMsg = `You sunk ${this.state.player1name}'s carrier!'`
+              hitMsg = `You sunk ${this.state.player1name}'s carrier!`
               score += 5
               this.setState({player2score: score})
             } else if (carrierHits.length < 5) {
-              hitMsg = `You hit ${this.state.player1name}'s carrier!'`
+              hitMsg = `You hit ${this.state.player1name}'s carrier!`
             }
             this.setState({msg: hitMsg, player2CarrierHits: carrierHits, player2hits: hits})
             if (this.checkForWinner(player, score) === true) {
@@ -489,11 +490,11 @@ class App extends Component {
             battleshipHits.push(location)
             let score = this.state.player2score
             if (battleshipHits.length === 4) {
-              hitMsg = `You sunk ${this.state.player1name}'s battleship!'`
+              hitMsg = `You sunk ${this.state.player1name}'s battleship!`
               score += 4
               this.setState({player2score: score})
             } else if (battleshipHits.length < 4) {
-              hitMsg = `You hit ${this.state.player1name}'s battleship!'`
+              hitMsg = `You hit ${this.state.player1name}'s battleship!`
             }
             this.setState({msg: hitMsg, player2BattleshipHits: battleshipHits, player2hits: hits})
             if (this.checkForWinner(player, score) === true) {
@@ -513,11 +514,11 @@ class App extends Component {
             destroyerHits.push(location)
             let score = this.state.player2score
             if (destroyerHits.length === 3) {
-              hitMsg = `You sunk ${this.state.player1name}'s destroyer!'`
+              hitMsg = `You sunk ${this.state.player1name}'s destroyer!`
               score += 3
               this.setState({player2score: score})
             } else if (destroyerHits.length < 3) {
-              hitMsg = `You hit ${this.state.player1name}'s destroyer!'`
+              hitMsg = `You hit ${this.state.player1name}'s destroyer!`
             }
             this.setState({msg: hitMsg, player2DestroyerHits: destroyerHits, player2hits: hits})
             if (this.checkForWinner(player, score) === true) {
@@ -537,11 +538,11 @@ class App extends Component {
             submarineHits.push(location)
             let score = this.state.player2score
             if (submarineHits.length === 3) {
-              hitMsg = `You sunk ${this.state.player1name}'s submarine!'`
+              hitMsg = `You sunk ${this.state.player1name}'s submarine!`
               score += 3
               this.setState({player2score: score})
-            } else if (submarineHits < 3) {
-              hitMsg = `You hit ${this.state.player1name}'s submarine!'`
+            } else if (submarineHits.length < 3) {
+              hitMsg = `You hit ${this.state.player1name}'s submarine!`
             }
             this.setState({msg: hitMsg, player2SubmarineHits: submarineHits, player2hits: hits})
             if (this.checkForWinner(player, score) === true) {
@@ -561,11 +562,11 @@ class App extends Component {
             patrolboatHits.push(location)
             let score = this.state.player2score
             if (patrolboatHits.length === 2) {
-              hitMsg = `You sunk ${this.state.player1name}'s patrol boat!'`
+              hitMsg = `You sunk ${this.state.player1name}'s patrol boat!`
               score += 2
               this.setState({player2score: score})
             } else if (patrolboatHits.length < 2) {
-              hitMsg = `You hit ${this.state.player1name}'s patrol boat!'`
+              hitMsg = `You hit ${this.state.player1name}'s patrol boat!`
             }
             this.setState({msg: hitMsg, player2PatrolBoatHits: patrolboatHits, player2hits: hits})
             if (this.checkForWinner(player, score) === true) {
