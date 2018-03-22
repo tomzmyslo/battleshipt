@@ -14,6 +14,6 @@ As with any MVP, BattleShipt includes a few items that had to be put on the back
   - Reduce the "setupShipData()", "determineShips()", "generateHorizontalShip()" and "generateVerticalShip()" into fewer functions. Ideally just one function.
   - Break apart the "checkStrike()" function into smaller, more succinct functions.
 
-To see more of the inner workings of BattleShipt, navigate to http://zmyslo.com/battleshipt and try it out. You can also see log output of what's happening, including the "Ship Placement Engine", in the console.
+To see more of the inner workings of BattleShipt, navigate to https://tomzmyslo.github.io/battleshipt/ and try it out. You can also see log output of what's happening, including the "Ship Placement Engine", in the console.
 
 Thanks for the opportunity and you can contact me at tom@zmyslo.com
